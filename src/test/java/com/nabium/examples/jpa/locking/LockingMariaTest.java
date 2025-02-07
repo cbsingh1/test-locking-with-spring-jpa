@@ -49,13 +49,13 @@ public class LockingMariaTest implements ConcurrentTestMixin {
     @Autowired
     private StateRepository repo;
 
-    private Resource setupStates = new ClassPathResource("/setup_states.sql");
+    private final Resource setupStates = new ClassPathResource("/setup_states.sql");
 
     @Container
     static MariaDBContainer<?> mariadb = new MariaDBContainer<>("mariadb:11.2");
 
     @DynamicPropertySource
-    static void marialProperties(DynamicPropertyRegistry registry) {
+    static void mariaProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", mariadb::getJdbcUrl);
         registry.add("spring.datasource.username", mariadb::getUsername);
         registry.add("spring.datasource.password", mariadb::getPassword);

@@ -39,7 +39,7 @@ import org.springframework.transaction.support.TransactionTemplate;
  * <li>To run test in enclosing test-transaction with setup and tear down each
  * in their own newly created transaction:
  * {@link #testUsingTestTran(ThrowingRunnable, ThrowingRunnable, ThrowingRunnable)}</li>
- * <li>To execute SQL scripts and statemetns:
+ * <li>To execute SQL scripts and statements:
  * {@link #runSqlScripts(Resource...)} and
  * {@link #runSqlStatements(String...)}</li>
  * <li>To use an {@code ExecutorService} to run test codes in separate thread:
@@ -69,7 +69,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 public interface ConcurrentTestMixin {
 
     /**
-     * @return {@code TransactionTemplate} used by the mixin to manage transacions
+     * @return {@code TransactionTemplate} used by the mixin to manage transactions
      */
     TransactionTemplate getTxTemplate();
 
@@ -100,10 +100,6 @@ public interface ConcurrentTestMixin {
         } finally {
             DataSourceUtils.releaseConnection(con, getDataSource());
         }
-    }
-
-    default void runWithTran(ThrowingRunnable task) throws TransactionException {
-        runWithTran(task, true);
     }
 
     default void runWithTran(ThrowingRunnable task, boolean rollback) throws TransactionException {

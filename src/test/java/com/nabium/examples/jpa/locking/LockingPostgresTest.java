@@ -51,7 +51,7 @@ public class LockingPostgresTest implements ConcurrentTestMixin {
     @Autowired
     private StateRepository repo;
 
-    private Resource setupStates = new ClassPathResource("/setup_states.sql");
+    private final Resource setupStates = new ClassPathResource("/setup_states.sql");
 
     @Container
     static PostgreSQLContainer<?> pgsql = new PostgreSQLContainer<>("postgres:16");

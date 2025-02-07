@@ -50,7 +50,7 @@ public class LockingMySQLTest implements ConcurrentTestMixin {
     @Autowired
     private StateRepository repo;
 
-    private Resource setupStates = new ClassPathResource("/setup_states.sql");
+    private final Resource setupStates = new ClassPathResource("/setup_states.sql");
 
     @Container
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.2");

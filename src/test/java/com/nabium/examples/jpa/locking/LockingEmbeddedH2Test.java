@@ -44,7 +44,7 @@ public class LockingEmbeddedH2Test implements ConcurrentTestMixin {
     @Autowired
     private StateRepository repo;
 
-    private Resource setupStates = new ClassPathResource("/setup_states.sql");
+    private final Resource setupStates = new ClassPathResource("/setup_states.sql");
 
     @Test
     public void test01_findForUpdateById_with_conflict_fails_after_2sec() {
@@ -63,7 +63,7 @@ public class LockingEmbeddedH2Test implements ConcurrentTestMixin {
                 // With H2 Database, SELECT FOR UPDATE does not wait infinitely.
                 // It waits 2000 milliseconds to acquire the lock and on failure,
                 // **closes** connection and throws PessimisticLockingFailureException.
-                // @Transactional annotaion tries to rollback the transaction but fails with the
+                // @Transactional annotation tries to rollback the transaction but fails with the
                 // closed connection and throws JpaSystemException, overriding
                 // PessimisticLockingFailureException.
                 assertThatThrownBy(() -> future.get(10, TimeUnit.SECONDS))
@@ -103,7 +103,7 @@ public class LockingEmbeddedH2Test implements ConcurrentTestMixin {
                 Future<?> future = submitWithTran(executor, () -> repo.findForUpdateNoWaitById(stateId));
 
                 // With H2 Database, SELECT FOR UPDATE NOWAIT is not supported.
-                // It's behaviour is same as SELECT FOR UPDATE.
+                // Its behaviour is same as SELECT FOR UPDATE.
                 assertThatThrownBy(() -> future.get(10, TimeUnit.SECONDS))
                         .isExactlyInstanceOf(ExecutionException.class)
                         .cause()
@@ -142,7 +142,7 @@ public class LockingEmbeddedH2Test implements ConcurrentTestMixin {
                 Future<?> future = submitWithTran(executor, () -> repo.findForUpdateSkipLockedById(stateId));
 
                 // With H2 Database, SELECT FOR UPDATE SKIP LOCKED is not supported.
-                // It's behaviour is same as SELECT FOR UPDATE.
+                // Its behaviour is same as SELECT FOR UPDATE.
                 assertThatThrownBy(() -> future.get(10, TimeUnit.SECONDS))
                         .isExactlyInstanceOf(ExecutionException.class)
                         .cause()

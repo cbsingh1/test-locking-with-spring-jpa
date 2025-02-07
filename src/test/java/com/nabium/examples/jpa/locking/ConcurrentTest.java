@@ -63,7 +63,7 @@ public class ConcurrentTest implements ConcurrentTestMixin {
     @Autowired
     private StateService service;
 
-    private Resource setupStates = new ClassPathResource("/setup_states.sql");
+    private final Resource setupStates = new ClassPathResource("/setup_states.sql");
 
     @Test
     public void test_transactional_method() {
@@ -71,7 +71,7 @@ public class ConcurrentTest implements ConcurrentTestMixin {
 
         testWithTran(() -> {
             // Setup must be run in isolated transaction and committed
-            // for service.deleteState() to see the insereted rows.
+            // for service.deleteState() to see the inserted rows.
             runSqlScripts(setupStates);
         }, () -> {
             // New transaction is started by testWithTran().
@@ -86,7 +86,7 @@ public class ConcurrentTest implements ConcurrentTestMixin {
                 Future<?> future = executor.submit(() -> service.deleteState("AL"));
                 executor.shutdown();
 
-                // service.deleteState() will be waiting for the lock inifinitely.
+                // service.deleteState() will be waiting for the lock infinitely.
                 assertThatThrownBy(() -> future.get(5, TimeUnit.SECONDS))
                         .isExactlyInstanceOf(TimeoutException.class);
             });
@@ -202,7 +202,7 @@ public class ConcurrentTest implements ConcurrentTestMixin {
                 assertThatThrownBy(() -> future.get(5, TimeUnit.SECONDS))
                         .isExactlyInstanceOf(TimeoutException.class);
 
-                // sevice.delete() should still be waiting.
+                // service.delete() should still be waiting.
                 assertThat(future.isDone()).isFalse();
 
                 // End transaction and release the lock.
