@@ -11,7 +11,7 @@ Objective
 Tested with
 ------------------------------------------------------------
 
-- Spring Boot 3.2.1
+- Spring Boot 3.4.2
 - PostgreSQL 16
 - MySQL 8.2
 - MariaDB 11.2
